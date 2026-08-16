@@ -23,7 +23,7 @@ The preferred installation method is the Hermes Web UI:
 1. Open the Hermes dashboard and go to **Plugins**. You can also open the page directly at `http://<HERMES-HOST>:9119/plugins`.
 2. Enter `nathanpond/hermes-plex-tautulli` in the plugin installation field.
 3. Select **Install**, then enable the plugin if it is not enabled automatically.
-4. Restart the Hermes gateway or container if the dashboard requests it.
+4. **Start a new chat session.** Existing sessions retain the tool list they were created with and will not see newly enabled plugin tools.
 
 Use the dedicated Plugins page rather than asking the chat agent to install the plugin. A conversational request may cause the agent to improvise shell commands instead of invoking Hermes's native plugin manager.
 
@@ -44,15 +44,17 @@ The installer prompts for any required settings that are not already present in 
 | `TAUTULLI_URL` | Base URL of Tautulli | `http://192.168.1.10:8181` |
 | `TAUTULLI_API_KEY` | Tautulli API key | Secret |
 
-Restart the Hermes gateway after installation if it is already running. Confirm that the plugin loaded from the dashboard's **Plugins** page or, from a terminal, with:
+After installation, start a new chat session and confirm that the plugin loaded by asking:
+
+> List my Plex libraries and their media types.
+
+You can also confirm installation from the dashboard's **Plugins** page or, from a terminal, with:
 
 ```bash
 hermes plugins list
 ```
 
-You can then try:
-
-> List my Plex libraries and their media types.
+A gateway or container restart is not normally required. Use it only as a troubleshooting step if the plugin tools are still unavailable in a new chat session.
 
 ### Updating
 
