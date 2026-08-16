@@ -2,6 +2,7 @@
 
 import json
 import os
+from datetime import date, timedelta
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -134,9 +135,17 @@ def _safe_history_row(row):
 
 def tautulli_history(params, **kwargs):
     del kwargs
-    limit = _clamp(params.get("limit"), 1, 500, 100)
+    limit = _clamp(params.get("limit"), 1, 500, 500)
     offset = _clamp(params.get("offset"), 0, 1000000000, 0)
     grouping = _clamp(params.get("grouping"), 0, 1, 0)
+    days = None
+    after = params.get("after")
+    before = params.get("before")
+    if params.get("days") not in (None, ""):
+        days = _clamp(params.get("days"), 1, 3650, 14)
+        today = date.today()
+        after = (today - timedelta(days=days)).isoformat()
+        before = before or today.isoformat()
     query = {
         "grouping": grouping,
         "order_column": "date",
@@ -144,8 +153,8 @@ def tautulli_history(params, **kwargs):
         "start": offset,
         "length": limit,
         "start_date": params.get("start_date"),
-        "after": params.get("after"),
-        "before": params.get("before"),
+        "after": after,
+        "before": before,
         "user": params.get("user"),
         "search": params.get("search"),
         "media_type": params.get("media_type"),
@@ -167,6 +176,9 @@ def tautulli_history(params, **kwargs):
         "offset": offset,
         "has_more": has_more,
         "grouping": grouping,
+        "days": days,
+        "after": after,
+        "before": before,
         "total_duration": data.get("total_duration"),
         "filter_duration": data.get("filter_duration"),
         "history": rows,
