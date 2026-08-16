@@ -134,13 +134,18 @@ def _safe_history_row(row):
 
 def tautulli_history(params, **kwargs):
     del kwargs
-    limit = _clamp(params.get("limit"), 1, 100, 25)
+    limit = _clamp(params.get("limit"), 1, 500, 100)
+    offset = _clamp(params.get("offset"), 0, 1000000000, 0)
+    grouping = _clamp(params.get("grouping"), 0, 1, 0)
     query = {
-        "grouping": 1,
+        "grouping": grouping,
         "order_column": "date",
         "order_dir": "desc",
+        "start": offset,
         "length": limit,
         "start_date": params.get("start_date"),
+        "after": params.get("after"),
+        "before": params.get("before"),
         "user": params.get("user"),
         "search": params.get("search"),
         "media_type": params.get("media_type"),
@@ -149,10 +154,19 @@ def tautulli_history(params, **kwargs):
     }
     data = _tautulli("get_history", query) or {}
     rows = [_safe_history_row(row) for row in data.get("data", [])[:limit]]
+    records_filtered = data.get("recordsFiltered")
+    try:
+        has_more = offset + len(rows) < int(records_filtered)
+    except (TypeError, ValueError):
+        has_more = False
     return _result({
         "success": True,
         "records_total": data.get("recordsTotal"),
-        "records_filtered": data.get("recordsFiltered"),
+        "records_filtered": records_filtered,
+        "returned_count": len(rows),
+        "offset": offset,
+        "has_more": has_more,
+        "grouping": grouping,
         "total_duration": data.get("total_duration"),
         "filter_duration": data.get("filter_duration"),
         "history": rows,
