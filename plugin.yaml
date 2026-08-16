@@ -1,7 +1,15 @@
 name: plex-tautulli
-version: "1.0.0"
+version: "1.0.1"
 description: Read-only Plex library and Tautulli playback-history tools
 tags: [plex, tautulli, media, read-only]
+provides_tools:
+  - plex_list_libraries
+  - plex_search_library
+  - plex_recently_added
+  - tautulli_history
+  - tautulli_activity
+  - tautulli_home_stats
+  - tautulli_list_users
 requires_env:
   - name: PLEX_URL
     description: Base URL for Plex Media Server, such as http://192.168.1.10:32400
