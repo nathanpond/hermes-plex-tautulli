@@ -38,18 +38,24 @@ TAUTULLI_HISTORY = {
     "name": "tautulli_history",
     "description": (
         "Query Plex play history from Tautulli. Use for what was watched, who watched it, "
-        "when it was watched, playback duration, platform, player, or transcode decision. Read-only."
+        "when it was watched, playback duration, platform, player, or transcode decision. "
+        "For a date range use after and before; start_date matches one exact calendar date. "
+        "Compare returned_count with records_filtered and continue with offset when has_more is true. Read-only."
     ),
     "parameters": {
         "type": "object",
         "properties": {
-            "start_date": {"type": "string", "description": "Optional earliest date in YYYY-MM-DD format."},
+            "start_date": {"type": "string", "description": "Optional exact calendar date in YYYY-MM-DD format. Do not use this for a date range."},
+            "after": {"type": "string", "description": "Optional inclusive earliest date in YYYY-MM-DD format. Use this for 'since' or 'past N days'."},
+            "before": {"type": "string", "description": "Optional inclusive latest date in YYYY-MM-DD format."},
             "user": {"type": "string", "description": "Optional Plex friendly name or username."},
             "search": {"type": "string", "description": "Optional title/history search text."},
             "media_type": {"type": "string", "enum": ["movie", "episode", "track", "live"]},
             "section_id": {"type": "integer", "description": "Optional Plex library section ID."},
             "transcode_decision": {"type": "string", "enum": ["direct play", "copy", "transcode"]},
-            "limit": {"type": "integer", "minimum": 1, "maximum": 100, "default": 25},
+            "grouping": {"type": "integer", "enum": [0, 1], "default": 0, "description": "0 returns every playback session; 1 groups related history rows."},
+            "offset": {"type": "integer", "minimum": 0, "default": 0, "description": "Row offset for retrieving the next page when has_more is true."},
+            "limit": {"type": "integer", "minimum": 1, "maximum": 500, "default": 100},
         },
     },
 }
