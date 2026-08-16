@@ -18,7 +18,18 @@ It can search Plex libraries, list recently added media, inspect current streami
 
 ## Installation
 
-From a Hermes terminal, install and enable the plugin:
+The preferred installation method is the Hermes Web UI:
+
+1. Open the Hermes dashboard and go to **Plugins**. You can also open the page directly at `http://<HERMES-HOST>:9119/plugins`.
+2. Enter `nathanpond/hermes-plex-tautulli` in the plugin installation field.
+3. Select **Install**, then enable the plugin if it is not enabled automatically.
+4. Restart the Hermes gateway or container if the dashboard requests it.
+
+Use the dedicated Plugins page rather than asking the chat agent to install the plugin. A conversational request may cause the agent to improvise shell commands instead of invoking Hermes's native plugin manager.
+
+### Console fallback
+
+If installation through the Web UI is unavailable or fails, open a terminal in the Hermes container and run:
 
 ```bash
 hermes plugins install nathanpond/hermes-plex-tautulli --enable
@@ -33,7 +44,7 @@ The installer prompts for any required settings that are not already present in 
 | `TAUTULLI_URL` | Base URL of Tautulli | `http://192.168.1.10:8181` |
 | `TAUTULLI_API_KEY` | Tautulli API key | Secret |
 
-Restart the Hermes gateway after installation if it is already running. Confirm that the plugin loaded with:
+Restart the Hermes gateway after installation if it is already running. Confirm that the plugin loaded from the dashboard's **Plugins** page or, from a terminal, with:
 
 ```bash
 hermes plugins list
