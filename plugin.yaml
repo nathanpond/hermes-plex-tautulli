@@ -1,5 +1,5 @@
 name: plex-tautulli
-version: "1.0.1"
+version: "1.1.0"
 description: Read-only Plex library and Tautulli playback-history tools
 tags: [plex, tautulli, media, read-only]
 provides_tools:
