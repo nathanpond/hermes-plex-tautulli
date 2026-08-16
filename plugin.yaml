@@ -1,0 +1,17 @@
+name: plex-tautulli
+version: "1.0.0"
+description: Read-only Plex library and Tautulli playback-history tools
+tags: [plex, tautulli, media, read-only]
+requires_env:
+  - name: PLEX_URL
+    description: Base URL for Plex Media Server, such as http://192.168.1.10:32400
+    secret: false
+  - name: PLEX_TOKEN
+    description: Plex X-Plex-Token authentication token
+    secret: true
+  - name: TAUTULLI_URL
+    description: Base URL for Tautulli, such as http://192.168.1.10:8181
+    secret: false
+  - name: TAUTULLI_API_KEY
+    description: Tautulli API key
+    secret: true
