@@ -39,14 +39,15 @@ TAUTULLI_HISTORY = {
     "description": (
         "Query Plex play history from Tautulli. Use for what was watched, who watched it, "
         "when it was watched, playback duration, platform, player, or transcode decision. "
-        "For a date range use after and before; start_date matches one exact calendar date. "
+        "For requests such as past N days, weeks, or months, ALWAYS convert the period to days "
+        "and use the days parameter. Use after and before only for explicit calendar ranges. "
         "Compare returned_count with records_filtered and continue with offset when has_more is true. Read-only."
     ),
     "parameters": {
         "type": "object",
         "properties": {
-            "start_date": {"type": "string", "description": "Optional exact calendar date in YYYY-MM-DD format. Do not use this for a date range."},
-            "after": {"type": "string", "description": "Optional inclusive earliest date in YYYY-MM-DD format. Use this for 'since' or 'past N days'."},
+            "days": {"type": "integer", "minimum": 1, "maximum": 3650, "description": "Inclusive recent-history window. Use 7 for the past week, 14 for the past two weeks, 30 for the past month, and so on."},
+            "after": {"type": "string", "description": "Optional inclusive earliest date in YYYY-MM-DD format. Use for an explicit 'since YYYY-MM-DD' request, not relative periods."},
             "before": {"type": "string", "description": "Optional inclusive latest date in YYYY-MM-DD format."},
             "user": {"type": "string", "description": "Optional Plex friendly name or username."},
             "search": {"type": "string", "description": "Optional title/history search text."},
@@ -55,7 +56,7 @@ TAUTULLI_HISTORY = {
             "transcode_decision": {"type": "string", "enum": ["direct play", "copy", "transcode"]},
             "grouping": {"type": "integer", "enum": [0, 1], "default": 0, "description": "0 returns every playback session; 1 groups related history rows."},
             "offset": {"type": "integer", "minimum": 0, "default": 0, "description": "Row offset for retrieving the next page when has_more is true."},
-            "limit": {"type": "integer", "minimum": 1, "maximum": 500, "default": 100},
+            "limit": {"type": "integer", "minimum": 1, "maximum": 500, "default": 500},
         },
     },
 }
